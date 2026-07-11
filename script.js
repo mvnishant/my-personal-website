@@ -1,45 +1,48 @@
-// Year in footer
+/* ------------------------------
+   FOOTER YEAR
+------------------------------ */
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// Scroll progress bar
+/* ------------------------------
+   SCROLL PROGRESS BAR
+------------------------------ */
 window.addEventListener('scroll', () => {
   const scrollTop = window.scrollY;
   const docHeight = document.body.scrollHeight - window.innerHeight;
   const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
   document.getElementById('scroll-progress').style.width = progress + '%';
-
-  // Hero background motion (parallax-like)
-  const hero = document.querySelector('.hero');
-  if (hero) {
-    const offset = scrollTop * 0.15;
-    hero.style.backgroundPosition = `center ${-offset}px`;
-  }
 });
 
-// IntersectionObserver for sections + text animations
-const sections = document.querySelectorAll('.section');
-const animatedElements = document.querySelectorAll('[data-animate]');
+/* ------------------------------
+   HERO PARALLAX MOTION (SUPER PREMIUM)
+------------------------------ */
+window.addEventListener('scroll', () => {
+  const offset = window.scrollY * 0.12;
+  const hero = document.querySelector('.hero');
+  hero.style.backgroundPosition = `center ${-offset}px`;
+});
 
-const observer = new IntersectionObserver(
+/* ------------------------------
+   INTERSECTION OBSERVER
+   (Sections + Text Animations)
+------------------------------ */
+const animatedElements = document.querySelectorAll('[data-animate]');
+const sectionObserver = new IntersectionObserver(
   entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        if (entry.target.classList.contains('section')) {
-          entry.target.classList.add('visible');
-        }
-        if (entry.target.hasAttribute('data-animate')) {
-          entry.target.classList.add('animated-in');
-        }
+        entry.target.classList.add('animated-in');
       }
     });
   },
   { threshold: 0.2 }
 );
 
-sections.forEach(section => observer.observe(section));
-animatedElements.forEach(el => observer.observe(el));
+animatedElements.forEach(el => sectionObserver.observe(el));
 
-// Magnetic button hover
+/* ------------------------------
+   MAGNETIC BUTTONS (SUPER PREMIUM)
+------------------------------ */
 const magneticButtons = document.querySelectorAll('.btn-magnetic');
 
 magneticButtons.forEach(btn => {
@@ -47,7 +50,7 @@ magneticButtons.forEach(btn => {
     const rect = btn.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
-    btn.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+    btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
   });
 
   btn.addEventListener('mouseleave', () => {
@@ -55,17 +58,19 @@ magneticButtons.forEach(btn => {
   });
 });
 
-// Floating particles
+/* ------------------------------
+   FLOATING PARTICLES
+------------------------------ */
 const particleLayer = document.querySelector('.particle-layer');
 if (particleLayer) {
-  const particleCount = 40;
+  const particleCount = 45;
   for (let i = 0; i < particleCount; i++) {
     const p = document.createElement('div');
     p.className = 'particle';
     const x = Math.random() * 100;
     const y = Math.random() * 100;
     const delay = Math.random() * 10;
-    const scale = 0.6 + Math.random() * 0.8;
+    const scale = 0.5 + Math.random() * 1.2;
     p.style.left = x + '%';
     p.style.top = y + '%';
     p.style.animationDelay = `${delay}s`;
@@ -74,7 +79,9 @@ if (particleLayer) {
   }
 }
 
-// Dark / light mode toggle
+/* ------------------------------
+   DARK / LIGHT MODE TOGGLE
+------------------------------ */
 const themeToggle = document.getElementById('theme-toggle');
 const body = document.body;
 
@@ -86,4 +93,46 @@ themeToggle.addEventListener('click', () => {
     body.classList.remove('theme-light');
     body.classList.add('theme-dark');
   }
+});
+
+/* ------------------------------
+   NAV SHRINK ON SCROLL (SUPER PREMIUM)
+------------------------------ */
+const nav = document.querySelector('.top-nav');
+let lastScroll = 0;
+
+window.addEventListener('scroll', () => {
+  const currentScroll = window.scrollY;
+
+  if (currentScroll > 60) {
+    nav.classList.add('nav-shrink');
+  } else {
+    nav.classList.remove('nav-shrink');
+  }
+
+  lastScroll = currentScroll;
+});
+
+/* ------------------------------
+   ACTIVE SECTION HIGHLIGHT (SUPER PREMIUM)
+------------------------------ */
+const navLinks = document.querySelectorAll('.nav-links a');
+const sections = document.querySelectorAll('section');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 120;
+    if (scrollY >= sectionTop) {
+      current = section.getAttribute('id');
+    }
+  });
+
+  navLinks.forEach(link => {
+    link.classList.remove('active-link');
+    if (link.getAttribute('href').includes(current)) {
+      link.classList.add('active-link');
+    }
+  });
 });

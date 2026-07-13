@@ -2,9 +2,9 @@ function toggleTheme() {
     document.body.classList.toggle("light");
     const icon = document.getElementById("themeIcon");
     if (document.body.classList.contains("light")) {
-        icon.src = "./assets/images/theme-light-icon.png";
+        icon.src = "/assets/images/theme-light-icon.png";
     } else {
-        icon.src = "./assets/images/theme-dark-icon.png";
+        icon.src = "/assets/images/theme-dark-icon.png";
     }
 }
 
@@ -30,13 +30,5 @@ function handleReveal() {
         }
     });
 }
-
-// Force reveal on load for bottom section
-window.addEventListener("load", () => {
-    document.querySelectorAll(".reveal").forEach(el => {
-        el.classList.add("visible");
-    });
-});
-
 window.addEventListener("scroll", handleReveal);
 window.addEventListener("load", handleReveal);
